@@ -40,11 +40,10 @@ import {
 type Order = 'asc' | 'desc';
 
 export default function ActiveItemsTable({ items }: { items: Item[] }) {
-  const thePage = usePage();
-  const [, paramString] = thePage.url.split('?');
+  const page = usePage();
+  const [, paramString] = page.url.split('?');
   const searchParams = new URLSearchParams(paramString);
 
-  const page = parseInt(searchParams.get('page') ?? '') || 1;
   const search = searchParams.get('search') || '';
   const format = searchParams.get('format');
 
@@ -53,8 +52,6 @@ export default function ActiveItemsTable({ items }: { items: Item[] }) {
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(search);
   const [formatInput, setFormatInput] = useState<string | null>(format);
-
-  // const [items, setItems] = useState<Item[]>([]);
 
   useEffect(() => {
     setSearchInput(search);
@@ -86,26 +83,6 @@ export default function ActiveItemsTable({ items }: { items: Item[] }) {
     },
     [router, createQueryString],
   );
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const params = new URLSearchParams();
-  //     params.set('page', String(page));
-
-  //     if (search) {
-  //       params.set('search', search);
-  //     }
-
-  //     if (format) {
-  //       params.set('format', format);
-  //     }
-
-  //     const response = await fetch(`/api/items?${params.toString()}`);
-  //     const data: { items: Item[] } = await response.json();
-
-  //     setItems(data.items);
-  //   })();
-  // }, [page, search, format]);
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
