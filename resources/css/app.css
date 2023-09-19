@@ -1,0 +1,4 @@
+/* Overlap admin sidebar */
+#nprogress .bar {
+  z-index: 10000 !important;
+}
