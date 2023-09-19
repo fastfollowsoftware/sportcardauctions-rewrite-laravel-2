@@ -11,6 +11,7 @@ import {
   ListSubheader,
   Sheet,
 } from '@mui/joy';
+import { router } from '@inertiajs/react';
 
 export default function SecondSidebar() {
   return (
@@ -70,11 +71,29 @@ export default function SecondSidebar() {
             Dashboard
           </ListSubheader>
           <ListItem>
-            <ListItemButton onClick={() => closeSidebar()}>
+            <ListItemButton
+              onClick={() => {
+                router.get('/admin');
+                closeSidebar();
+              }}
+            >
               <ListItemDecorator>
                 <BubbleChartIcon />
               </ListItemDecorator>
               <ListItemContent>Overview</ListItemContent>
+            </ListItemButton>
+          </ListItem>
+          <ListItem>
+            <ListItemButton
+              onClick={() => {
+                router.get('/admin/active-items');
+                closeSidebar();
+              }}
+            >
+              <ListItemDecorator>
+                <BubbleChartIcon />
+              </ListItemDecorator>
+              <ListItemContent>Active Items</ListItemContent>
             </ListItemButton>
           </ListItem>
         </List>

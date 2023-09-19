@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActiveItemsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -38,6 +39,8 @@ Route::middleware('auth')->group(function () {
 
 Route::prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('admin.index');
+
+    Route::get('active-items', [ActiveItemsController::class, 'index'])->name('admin.active-items.index');
 });
 
 require __DIR__ . '/auth.php';
