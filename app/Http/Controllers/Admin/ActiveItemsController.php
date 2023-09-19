@@ -22,7 +22,7 @@ class ActiveItemsController extends Controller
             $query->where('format', $request->get('format'));
         }
 
-        $items = $query->paginate(10);
+        $items = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/ActiveItems/Index', [
             'items' => $items,

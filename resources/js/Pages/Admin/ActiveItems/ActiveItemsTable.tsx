@@ -36,10 +36,11 @@ import {
   Option,
   ColorPaletteProp,
 } from '@mui/joy';
+import { PaginatedData } from '@/types/PaginatedData';
 
 type Order = 'asc' | 'desc';
 
-export default function ActiveItemsTable({ items }: { items: Item[] }) {
+export default function ActiveItemsTable({ items }: { items: PaginatedData<Item> }) {
   const page = usePage();
   const [, paramString] = page.url.split('?');
   const searchParams = new URLSearchParams(paramString);
@@ -205,12 +206,12 @@ export default function ActiveItemsTable({ items }: { items: Item[] }) {
               <th style={{ width: 48, textAlign: 'center', padding: '12px 6px' }}>
                 <Checkbox
                   size="sm"
-                  indeterminate={selected.length > 0 && selected.length !== items.length}
-                  checked={selected.length === items.length}
+                  indeterminate={selected.length > 0 && selected.length !== items.data.length}
+                  checked={selected.length === items.data.length}
                   onChange={(event) => {
-                    setSelected(event.target.checked ? items.map((row) => row.id) : []);
+                    setSelected(event.target.checked ? items.data.map((row) => row.id) : []);
                   }}
-                  color={selected.length > 0 || selected.length === items.length ? 'primary' : undefined}
+                  color={selected.length > 0 || selected.length === items.data.length ? 'primary' : undefined}
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
@@ -243,7 +244,7 @@ export default function ActiveItemsTable({ items }: { items: Item[] }) {
             </tr>
           </thead>
           <tbody>
-            {items.map((row) => (
+            {items.data.map((row) => (
               <tr key={row.id}>
                 <td style={{ textAlign: 'center', width: 120 }}>
                   <Checkbox
@@ -317,27 +318,43 @@ export default function ActiveItemsTable({ items }: { items: Item[] }) {
           },
         }}
       >
-        <Button size="sm" variant="outlined" color="neutral" startDecorator={<KeyboardArrowLeftIcon />}>
+        <Button
+          size="sm"
+          variant="outlined"
+          color="neutral"
+          startDecorator={<KeyboardArrowLeftIcon />}
+          onClick={() => router.get(items.prev_page_url)}
+        >
           Previous
         </Button>
 
         <Box sx={{ flex: 1 }} />
-        {['1', '2', '3', '…', '8', '9', '10'].map((page) => (
-          <IconButton
-            key={page}
-            size="sm"
-            variant={Number(page) ? 'outlined' : 'plain'}
-            color="neutral"
-            onClick={() => {
-              updateFilter('page', page);
-            }}
-          >
-            {page}
-          </IconButton>
-        ))}
+        {items.links.map(
+          (link, index) =>
+            index !== 0 &&
+            index !== items.links.length - 1 && (
+              <IconButton
+                key={index}
+                size="sm"
+                variant={link.url ? 'outlined' : 'plain'}
+                color="neutral"
+                onClick={() => {
+                  router.get(link.url);
+                }}
+              >
+                {link.label}
+              </IconButton>
+            ),
+        )}
         <Box sx={{ flex: 1 }} />
 
-        <Button size="sm" variant="outlined" color="neutral" endDecorator={<KeyboardArrowRightIcon />}>
+        <Button
+          size="sm"
+          variant="outlined"
+          color="neutral"
+          endDecorator={<KeyboardArrowRightIcon />}
+          onClick={() => router.get(items.next_page_url)}
+        >
           Next
         </Button>
       </Box>
