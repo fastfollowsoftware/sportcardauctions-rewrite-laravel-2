@@ -37,6 +37,7 @@ import {
   ColorPaletteProp,
 } from '@mui/joy';
 import { PaginatedData } from '@/types/PaginatedData';
+import SortableColumnHeader from '@/Components/SortableColumnHeader';
 
 type Order = 'asc' | 'desc';
 
@@ -47,8 +48,9 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
 
   const search = searchParams.get('search') || '';
   const format = searchParams.get('format');
+  const sortBy = searchParams.get('sort_by') || 'name';
+  const sortDirection = searchParams.get('sort_direction') || 'asc';
 
-  const [order, setOrder] = useState<Order>('desc');
   const [selected, setSelected] = useState<readonly number[]>([]);
   const [open, setOpen] = useState(false);
   const [searchInput, setSearchInput] = useState(search);
@@ -65,13 +67,18 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
   // Get a new searchParams string by merging the current
   // searchParams with a provided key/value pair
   const createQueryString = useCallback(
-    (name: string, value: string) => {
+    (values: { [key: string]: string }) => {
       const params = new URLSearchParams(searchParams);
-      if (value) {
-        params.set(name, value);
-      } else {
-        params.delete(name);
+
+      for (let key of Object.keys(values)) {
+        if (values[key]) {
+          params.set(key, values[key]);
+        } else {
+          params.delete(key);
+        }
       }
+
+      params.delete('page');
 
       return params.toString();
     },
@@ -79,20 +86,26 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
   );
 
   const updateFilter = useCallback(
-    (name: string, value: string) => {
-      router.get(`/admin/active-items?${createQueryString(name, value)}`, undefined, { preserveState: true });
+    (values: { [key: string]: string }) => {
+      router.get(`/admin/active-items?${createQueryString(values)}`, undefined, { preserveState: true });
     },
     [router, createQueryString],
   );
 
   const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchInput(e.target.value);
-    updateFilter('search', e.target.value);
+    updateFilter({ search: e.target.value });
   };
 
   const handleFormatChange = (_e: SyntheticEvent | null, value: string | null) => {
     setFormatInput(value);
-    updateFilter('format', value || '');
+    updateFilter({ format: value || '' });
+  };
+
+  const updateSort = (column: string) => {
+    const newSortDirection = sortBy === column ? (sortDirection === 'asc' ? 'desc' : 'asc') : 'asc';
+
+    updateFilter({ sort_by: column, sort_direction: newSortDirection });
   };
 
   const renderFilters = () => (
@@ -215,32 +228,63 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
                   sx={{ verticalAlign: 'text-bottom' }}
                 />
               </th>
-              <th style={{ width: 120, padding: '12px 6px' }}>
-                <Link
-                  underline="none"
-                  color="primary"
-                  component="button"
-                  onClick={() => setOrder(order === 'asc' ? 'desc' : 'asc')}
-                  fontWeight="lg"
-                  endDecorator={<ArrowDropDownIcon />}
-                  sx={{
-                    '& svg': {
-                      transition: '0.2s',
-                      transform: order === 'desc' ? 'rotate(0deg)' : 'rotate(180deg)',
-                    },
-                  }}
-                >
-                  Picture
-                </Link>
+              <th style={{ width: 120, padding: '12px 6px' }}></th>
+              <th style={{ width: 300, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="name"
+                  label="Name"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('name')}
+                />
               </th>
-              <th style={{ width: 300, padding: '12px 6px' }}>Title</th>
               <th style={{ width: 100, padding: '12px 6px' }}>Format</th>
               <th style={{ width: 240, padding: '12px 6px' }}>Consignor</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>Current Price</th>
-              <th style={{ width: 120, padding: '12px 6px' }}>Available Qty</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>Views</th>
-              <th style={{ width: 100, padding: '12px 6px' }}>Bids</th>
-              <th style={{ width: 150, padding: '12px 6px' }}>Time Left</th>
+              <th style={{ width: 120, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="current_price"
+                  label="Current Price"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('current_price')}
+                />
+              </th>
+              <th style={{ width: 120, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="available_quantity"
+                  label="Available Qty"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('available_quantity')}
+                />
+              </th>
+              <th style={{ width: 100, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="views"
+                  label="Views"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('views')}
+                />
+              </th>
+              <th style={{ width: 100, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="bids"
+                  label="Bids"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('bids')}
+                />
+              </th>
+              <th style={{ width: 150, padding: '12px 6px' }}>
+                <SortableColumnHeader
+                  name="ends_at"
+                  label="Time Left"
+                  sortBy={sortBy}
+                  sortDirection={sortDirection}
+                  onClick={() => updateSort('ends_at')}
+                />
+              </th>
             </tr>
           </thead>
           <tbody>
