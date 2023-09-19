@@ -49,7 +49,6 @@ export default function JoyOrderDashboardTemplate({ children }: { children: Reac
             display: 'flex',
             flexDirection: 'column',
             minWidth: 0,
-            height: '100dvh',
             gap: 1,
           }}
         >

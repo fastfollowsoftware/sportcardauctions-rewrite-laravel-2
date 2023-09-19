@@ -318,15 +318,17 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
           },
         }}
       >
-        <Button
-          size="sm"
-          variant="outlined"
-          color="neutral"
-          startDecorator={<KeyboardArrowLeftIcon />}
-          onClick={() => router.get(items.prev_page_url)}
-        >
-          Previous
-        </Button>
+        {items.prev_page_url && (
+          <Button
+            size="sm"
+            variant="outlined"
+            color="neutral"
+            startDecorator={<KeyboardArrowLeftIcon />}
+            onClick={() => router.get(items.prev_page_url)}
+          >
+            Previous
+          </Button>
+        )}
 
         <Box sx={{ flex: 1 }} />
         {items.links.map(
@@ -348,15 +350,17 @@ export default function ActiveItemsTable({ items }: { items: PaginatedData<Item>
         )}
         <Box sx={{ flex: 1 }} />
 
-        <Button
-          size="sm"
-          variant="outlined"
-          color="neutral"
-          endDecorator={<KeyboardArrowRightIcon />}
-          onClick={() => router.get(items.next_page_url)}
-        >
-          Next
-        </Button>
+        {items.next_page_url && (
+          <Button
+            size="sm"
+            variant="outlined"
+            color="neutral"
+            endDecorator={<KeyboardArrowRightIcon />}
+            onClick={() => router.get(items.next_page_url)}
+          >
+            Next
+          </Button>
+        )}
       </Box>
     </>
   );
