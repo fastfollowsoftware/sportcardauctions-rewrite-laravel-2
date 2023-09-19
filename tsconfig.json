@@ -12,7 +12,7 @@
     "noEmit": true,
     "paths": {
       "@/*": ["./resources/js/*"],
-      "@mui/material": ["./node_modules/@mui/joy"]
+      "@mui/material/*": ["./node_modules/@mui/joy/*"]
     }
   },
   "include": ["resources/js/**/*.ts", "resources/js/**/*.tsx", "resources/js/**/*.d.ts"]
