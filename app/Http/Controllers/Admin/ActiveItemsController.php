@@ -22,6 +22,8 @@ class ActiveItemsController extends Controller
             $query->where('format', $request->get('format'));
         }
 
+        $query->orderBy($request->get('sort_by', 'name'), $request->get('sort_direction', 'asc'));
+
         $items = $query->paginate(10)->withQueryString();
 
         return Inertia::render('Admin/ActiveItems/Index', [
