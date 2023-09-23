@@ -13,6 +13,7 @@ class EbayPlatformNotificationsController extends Controller
         $ebayPlatformNotification = EbayPlatformNotification::create([
             'raw_content' => $request->getContent(),
             'headers' => $request->header(),
+            'body' => [],
         ]);
 
         $dom = new \DOMDocument();
