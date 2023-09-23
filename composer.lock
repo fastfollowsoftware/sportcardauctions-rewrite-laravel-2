@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "7aab9ad5a55a4c5f57208ae5d7ab340a",
+    "content-hash": "c935d95a268bf20657cdd68be95e9a0e",
     "packages": [
         {
             "name": "brick/math",
@@ -5932,6 +5932,58 @@
                 "source": "https://github.com/tijsverkoyen/CssToInlineStyles/tree/2.2.6"
             },
             "time": "2023-01-03T09:29:04+00:00"
+        },
+        {
+            "name": "vaclavvanik/dom-to-array",
+            "version": "0.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vaclavvanik/dom-to-array.git",
+                "reference": "13ba5b18d59bea211e62cd1f6d0380d3156b2f15"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vaclavvanik/dom-to-array/zipball/13ba5b18d59bea211e62cd1f6d0380d3156b2f15",
+                "reference": "13ba5b18d59bea211e62cd1f6d0380d3156b2f15",
+                "shasum": ""
+            },
+            "require": {
+                "ext-dom": "*",
+                "php": "^7.3 || ^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "VaclavVanik\\DomToArray\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Václav Vaník",
+                    "email": "vaclav.vanik@gmail.com"
+                }
+            ],
+            "description": "Load DOM document safety",
+            "homepage": "https://github.com/vaclavvanik/dom-to-array",
+            "keywords": [
+                "array",
+                "dom",
+                "xml"
+            ],
+            "support": {
+                "issues": "https://github.com/vaclavvanik/dom-to-array/issues",
+                "source": "https://github.com/vaclavvanik/dom-to-array/tree/0.1.0"
+            },
+            "time": "2021-11-11T17:05:42+00:00"
         },
         {
             "name": "vlucas/phpdotenv",
