@@ -16,13 +16,13 @@ class EbayPlatformNotificationsController extends Controller
             'body' => [],
         ]);
 
-        $dom = new \DOMDocument();
-        $dom->loadXML($request->getContent());
+        // $dom = new \DOMDocument();
+        // $dom->loadXML($request->getContent());
 
-        $body = DomToArray::toArray($dom);
+        // $body = DomToArray::toArray($dom);
 
-        $ebayPlatformNotification->body = $body;
-        $ebayPlatformNotification->save();
+        // $ebayPlatformNotification->body = $body;
+        // $ebayPlatformNotification->save();
 
 
         return response('ok');
