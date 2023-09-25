@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Hkonnet\LaravelEbay\EbayServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -182,7 +183,7 @@ return [
     */
 
     'aliases' => Facade::defaultAliases()->merge([
-        // 'Example' => App\Facades\Example::class,
+        'Ebay' => Hkonnet\LaravelEbay\Facade\Ebay::class,
     ])->toArray(),
 
 ];
