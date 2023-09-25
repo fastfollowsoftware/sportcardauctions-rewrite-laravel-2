@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\ActiveItemsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\EbayPlatformNotificationsController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Middleware\VerifyEbayPlatformNotificationSignature;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -44,7 +45,9 @@ Route::prefix('admin')->group(function () {
     Route::get('active-items', [ActiveItemsController::class, 'index'])->name('admin.active-items.index');
 });
 
-Route::get('/webhooks/ebay/platform-notifications', [EbayPlatformNotificationsController::class, 'index']);
-Route::post('/webhooks/ebay/platform-notifications', [EbayPlatformNotificationsController::class, 'index']);
+Route::middleware(VerifyEbayPlatformNotificationSignature::class)->group(function () {
+    Route::get('/webhooks/ebay/platform-notifications', [EbayPlatformNotificationsController::class, 'index']);
+    Route::post('/webhooks/ebay/platform-notifications', [EbayPlatformNotificationsController::class, 'index']);
+});
 
 require __DIR__ . '/auth.php';
